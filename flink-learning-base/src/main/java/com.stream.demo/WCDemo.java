@@ -25,7 +25,7 @@ public class WCDemo {
 
                         for (String word :s1){
                             if (word.length()>0){
-                                collector.collect(new Tuple2<>(word,1));
+                                collector.collect(new Tuple2<>(word.trim(),1));
                             }
                         }
                     }
@@ -43,7 +43,8 @@ public class WCDemo {
     }
 
     private static final String[] WORDS = new String[]{
-            "To be , or not to be , -- that is the question : --",
-            "whether 'tis nobler in the mind to suffer'"
+        "To be , or not to be , -- that is the question : --",
+        "whether 'tis nobler in the mind to suffer'"
     };
+
 }
