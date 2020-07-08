@@ -1,4 +1,4 @@
-package com.stream.demo;
+package com.stream.streaming;
 
 /**
  * @author happy

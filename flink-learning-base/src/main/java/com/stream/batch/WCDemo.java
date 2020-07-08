@@ -1,4 +1,4 @@
-package com.stream.demo;
+package com.stream.batch;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;

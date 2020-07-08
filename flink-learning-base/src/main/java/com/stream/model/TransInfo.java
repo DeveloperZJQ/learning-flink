@@ -1,4 +1,4 @@
-package com.stream.demo.model;
+package com.stream.model;
 
 import java.io.Serializable;
 

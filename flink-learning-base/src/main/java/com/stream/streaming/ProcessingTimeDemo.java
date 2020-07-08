@@ -1,11 +1,9 @@
-package com.stream.demo;
+package com.stream.streaming;
 
 import com.alibaba.fastjson.JSON;
-import com.stream.demo.model.TransInfo;
-import org.apache.flink.api.common.functions.FlatMapFunction;
+import com.stream.model.TransInfo;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
-import org.apache.flink.api.java.aggregation.SumAggregationFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
