@@ -14,14 +14,15 @@
         <flink.version>1.9.0</flink.version>
         <java.version>11</java.version>
 <!--        用不到就注掉，因为我两台笔记本的scala版本不一样-->
-<!--        <scala.binary.version>2.11</scala.binary.version>-->
-        <scala.binary.version>2.12</scala.binary.version>
+        <scala.binary.version>2.11</scala.binary.version>
+<!--        <scala.binary.version>2.12</scala.binary.version>-->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <modules>
         <module>flink-learning-base</module>
+        <module>flink-learning-connectors</module>
     </modules>
 
     <dependencies>
@@ -55,6 +56,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.72</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka-0.11_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
         </dependency>
 
     </dependencies>
