@@ -16,6 +16,7 @@ import org.apache.flink.streaming.api.windowing.time.Time;
  * @author happy
  * @create 2020-07-07 06:24
  * 本段代码主要为体验processing time
+ * FLink程序中，默认的时间语义都是processing time
  */
 public class ProcessingTimeDemo {
     public static void main(String[] args) throws Exception {

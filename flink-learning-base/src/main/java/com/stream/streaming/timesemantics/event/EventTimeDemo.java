@@ -1,4 +1,4 @@
-package com.stream.streaming.timesemantics;
+package com.stream.streaming.timesemantics.event;
 
 /**
  * @author happy
@@ -6,4 +6,5 @@ package com.stream.streaming.timesemantics;
  * 本段代码主要为体验事件时间
  */
 public class EventTimeDemo {
+
 }
