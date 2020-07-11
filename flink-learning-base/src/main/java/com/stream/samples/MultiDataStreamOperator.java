@@ -22,11 +22,11 @@ public class MultiDataStreamOperator {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         //union
-//        unionDemo(env);
+        unionDemo(env);
 
         //connect
-//        connectMapDemo(env);
-//        connectFlatMapDemo(env);
+        connectMapDemo(env);
+        connectFlatMapDemo(env);
 
         //split
         splitDemo(env);
