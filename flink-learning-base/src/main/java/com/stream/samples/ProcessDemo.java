@@ -68,6 +68,9 @@ public class ProcessDemo {
                 super.onTimer(timestamp, ctx, out);
             }
         };
+
+        SingleOutputStreamOperator<Customer> processRes = dataStreamSource.process(processFunction);
+        processRes.print();
     }
 }
 

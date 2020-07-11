@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @create 2020-07-08 06:21
  */
 public  class TransInfo implements Serializable {
-    private String timeStamp;
+    private long timeStamp;
     private String userId;
     private String cardId;
     private String transfer;
@@ -16,7 +16,7 @@ public  class TransInfo implements Serializable {
     public TransInfo() {
     }
 
-    public TransInfo(String timeStamp, String userId, String cardId, String transfer, String fee) {
+    public TransInfo(long timeStamp, String userId, String cardId, String transfer, String fee) {
         this.timeStamp = timeStamp;
         this.userId = userId;
         this.cardId = cardId;
@@ -24,11 +24,11 @@ public  class TransInfo implements Serializable {
         this.fee = fee;
     }
 
-    public String getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 

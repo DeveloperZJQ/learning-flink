@@ -23,6 +23,7 @@
     <modules>
         <module>flink-learning-base</module>
         <module>flink-learning-connectors</module>
+        <module>flink-learning-common</module>
     </modules>
 
     <dependencies>
