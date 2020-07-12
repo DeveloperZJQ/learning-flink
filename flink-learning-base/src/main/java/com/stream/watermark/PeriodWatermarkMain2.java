@@ -1,6 +1,7 @@
 package com.stream.watermark;
 
-import com.stream.model.TransInfo;
+
+import com.happy.common.model.TransInfo;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;

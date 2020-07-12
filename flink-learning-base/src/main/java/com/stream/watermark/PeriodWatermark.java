@@ -1,7 +1,7 @@
 package com.stream.watermark;
 
+import com.happy.common.model.TransInfo;
 import com.happy.common.utils.DateUtil;
-import com.stream.model.TransInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks;
 import org.apache.flink.streaming.api.watermark.Watermark;

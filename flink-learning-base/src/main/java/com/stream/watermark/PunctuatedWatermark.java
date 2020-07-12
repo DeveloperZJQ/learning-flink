@@ -1,6 +1,6 @@
 package com.stream.watermark;
 
-import com.stream.model.TransInfo;
+import com.happy.common.model.TransInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.streaming.api.functions.AssignerWithPunctuatedWatermarks;
 import org.apache.flink.streaming.api.watermark.Watermark;

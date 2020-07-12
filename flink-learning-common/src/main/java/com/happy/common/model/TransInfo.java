@@ -1,4 +1,6 @@
-package com.stream.model;
+package com.happy.common.model;
+
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -6,6 +8,7 @@ import java.io.Serializable;
  * @author happy
  * @create 2020-07-08 06:21
  */
+@Data
 public  class TransInfo implements Serializable {
     private long timeStamp;
     private String userId;
@@ -23,6 +26,7 @@ public  class TransInfo implements Serializable {
         this.transfer = transfer;
         this.fee = fee;
     }
+
 
     public long getTimeStamp() {
         return timeStamp;

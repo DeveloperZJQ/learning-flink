@@ -1,7 +1,7 @@
 package com.stream.streaming.timesemantics;
 
 import com.alibaba.fastjson.JSON;
-import com.stream.model.TransInfo;
+import com.happy.common.model.TransInfo;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.functions.KeySelector;
