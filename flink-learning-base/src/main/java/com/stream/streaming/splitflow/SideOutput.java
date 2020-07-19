@@ -12,6 +12,7 @@ import org.apache.flink.util.OutputTag;
 
 /**
  * @author happy
+ * @Link https://github.com/zhisheng17/flink-learning/blob/master/flink-learning-examples/src/main/java/com/zhisheng/examples/streaming/sideoutput/SideOutputEvent.java
  * @create 2020-07-20 06:09
  */
 public class SideOutput {
@@ -24,6 +25,14 @@ public class SideOutput {
 
         DataStreamSource<MetricEvent> metricEventDataStreamSource = KafkaConfigUtil.buildSource(env);
 
+        /**
+         * ProcessFunction
+         * KeyedProcessFunction
+         * CoProcessFunction
+         * ProcessWindowFunction
+         * ProcessAllWindowFunction
+         * 这里不只是ProcessFunction可以实现该sideOutput，上面的函数同样可以实现
+         */
         SingleOutputStreamOperator<MetricEvent> sideOutputResult = metricEventDataStreamSource.process(new ProcessFunction<MetricEvent, MetricEvent>() {
             @Override
             public void processElement(MetricEvent metricEvent, Context context, Collector<MetricEvent> collector) throws Exception {
