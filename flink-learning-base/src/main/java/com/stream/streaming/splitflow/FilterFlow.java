@@ -24,6 +24,6 @@ public class FilterFlow {
         SingleOutputStreamOperator<MetricEvent> applicationData = data.filter(m -> "application".equals(m.getTags().get("type")));  //过滤出应用的数据
         SingleOutputStreamOperator<MetricEvent> middlewareData = data.filter(m -> "middleware".equals(m.getTags().get("type")));    //过滤出中间件的数据
 
-        env.execute("FilterFlow");
+        env.execute("FilterFlow App start");
     }
 }
