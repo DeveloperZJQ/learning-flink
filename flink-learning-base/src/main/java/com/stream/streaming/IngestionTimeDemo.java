@@ -1,4 +1,4 @@
-package com.stream.streaming.timesemantics;
+package com.stream.streaming;
 
 /**
  * @author happy

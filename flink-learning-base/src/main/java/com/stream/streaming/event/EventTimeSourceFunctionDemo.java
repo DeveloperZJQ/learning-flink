@@ -1,4 +1,4 @@
-package com.stream.streaming.timesemantics.event;
+package com.stream.streaming.event;
 
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
