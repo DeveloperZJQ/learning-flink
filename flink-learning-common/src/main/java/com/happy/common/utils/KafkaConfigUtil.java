@@ -105,6 +105,7 @@ public class KafkaConfigUtil {
         return env.addSource(consumer);
     }
 
+
     private static Map<KafkaTopicPartition, Long> buildOffsetByTime(Properties props, ParameterTool parameterTool, Long time) {
         props.setProperty("group.id", "query_time_" + time);
         KafkaConsumer consumer = new KafkaConsumer(props);
