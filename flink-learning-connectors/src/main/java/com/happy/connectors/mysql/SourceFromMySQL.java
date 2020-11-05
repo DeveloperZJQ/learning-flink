@@ -1,4 +1,4 @@
-package com.happy.connectors;
+package com.happy.connectors.mysql;
 
 import com.happy.common.model.TransInfo;;
 import com.happy.common.utils.MySQLUtil;
