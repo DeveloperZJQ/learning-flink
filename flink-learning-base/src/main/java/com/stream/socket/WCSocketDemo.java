@@ -21,7 +21,6 @@ public class WCSocketDemo {
         StreamExecutionEnvironment env                  = StreamExecutionEnvironment.getExecutionEnvironment();
         DataStreamSource<String> stringDataStreamSource = env.socketTextStream(args[0], Integer.parseInt(args[1]));
 
-        System.out.println("------1111-----");
         SingleOutputStreamOperator<Tuple2<String, Integer>> sum = stringDataStreamSource.flatMap(new FlatMapFunction<String, Tuple2<String, Integer>>() {
             @Override
             public void flatMap(String s, Collector<Tuple2<String, Integer>> collector) throws Exception {

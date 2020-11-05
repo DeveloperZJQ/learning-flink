@@ -3,6 +3,7 @@ package com.happy.common.utils;
 import com.happy.common.constant.PropertiesConstants;
 import com.happy.common.model.MetricEvent;
 import com.happy.common.schema.MetricSchema;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -20,6 +21,10 @@ import java.util.Properties;
 
 import static com.happy.common.constant.PropertiesConstants.*;
 
+/**
+ * @author happy
+ * @create 2020-09-04 18:31
+ */
 public class KafkaConfigUtil {
 
     /**
@@ -50,9 +55,32 @@ public class KafkaConfigUtil {
 
     public static DataStreamSource<MetricEvent> buildSource(StreamExecutionEnvironment env) throws IllegalAccessException {
         ParameterTool parameter = (ParameterTool) env.getConfig().getGlobalJobParameters();
-        String topic = parameter.getRequired(PropertiesConstants.METRICS_TOPIC);
-        Long time = parameter.getLong(PropertiesConstants.CONSUMER_FROM_TIME, 0L);
+        String topic            = parameter.getRequired(PropertiesConstants.METRICS_TOPIC);
+        Long time               = parameter.getLong(PropertiesConstants.CONSUMER_FROM_TIME, 0L);
         return buildSource(env, topic, time);
+    }
+
+    public static DataStreamSource<String> buildSourceString(StreamExecutionEnvironment env) throws IllegalAccessException{
+        ParameterTool parameter = (ParameterTool) env.getConfig().getGlobalJobParameters();
+        String requiredTopic    = parameter.getRequired(METRICS_TOPIC);
+        Long time               = parameter.getLong(CONSUMER_FROM_TIME, 0L);
+        return buildSourceString(env,requiredTopic,time);
+    }
+
+    public static DataStreamSource<String> buildSourceString(StreamExecutionEnvironment env, String requiredTopic, Long time) {
+        ParameterTool parameterTool = (ParameterTool) env.getConfig().getGlobalJobParameters();
+        Properties props            = buildKafkaProps(parameterTool);
+        FlinkKafkaConsumer011<String> consumer = new FlinkKafkaConsumer011<String>(
+                requiredTopic,
+                new SimpleStringSchema(),
+                props
+        );
+        //重置offset到time时刻
+        if (time != 0L) {
+            Map<KafkaTopicPartition, Long> partitionOffset = buildOffsetByTime(props, parameterTool, time);
+            consumer.setStartFromSpecificOffsets(partitionOffset);
+        }
+        return env.addSource(consumer);
     }
 
     /**
