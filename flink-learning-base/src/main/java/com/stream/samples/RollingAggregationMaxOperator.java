@@ -3,6 +3,7 @@ package com.stream.samples;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple;
@@ -63,6 +64,7 @@ public class RollingAggregationMaxOperator {
                 .max(1).print();
 
         reduce.print();
+
         env.execute(RollingAggregationMaxOperator.class.getSimpleName());
     }
 }
