@@ -22,18 +22,20 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author happy
  * @since 2020-11-03 23:53
+ * 本类是使用jest API实现的单条插入的方式
  */
 @Slf4j
-public class ESOperator {
+public class ESJestClientWriter {
     public static void main(String[] args) {
-        ESOperator esOperator = new ESOperator();
-        esOperator.init();
-//        esOperator.health();
-//        esOperator.deleteIndex("test_123");
-//        esOperator.createIndex("test_123");
-//        esOperator.createIndexMapping("test_123","111a");
+        ESJestClientWriter esJestClientWriter = new ESJestClientWriter();
+        esJestClientWriter.init();
+        esJestClientWriter.health();
+        esJestClientWriter.deleteIndex("test_123");
+        esJestClientWriter.createIndex("test_123");
+        esJestClientWriter.createIndexMapping("test_123","111a");
+        //测试插入10000条记录
         for (int i=0;i<10000;i++){
-            esOperator.insertMultiple(String.valueOf(i));
+            esJestClientWriter.insertMultiple(String.valueOf(i));
         }
     }
 
@@ -69,7 +71,7 @@ public class ESOperator {
     void init() {
         JestClientFactory factory = new JestClientFactory();
         factory.setHttpClientConfig(
-                new HttpClientConfig.Builder("http://106.12.2.73:9200")
+                new HttpClientConfig.Builder("http://localhost:9200")   //需要修改自己的地址
                         .multiThreaded(true)
                         .defaultMaxTotalConnectionPerRoute(10)
                         .maxTotalConnection(20)
