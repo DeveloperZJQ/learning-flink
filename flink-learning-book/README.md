@@ -35,3 +35,23 @@
 #### 3.4.2 TypeInformation信息获取
 ### 3.5 本章小结
 ## CH4 DataStream API介绍与使用
+### 4.1 DataStream编程模型
+#### 4.1.1 DataSources数据输入
+#### 4.1.2 DataStream转换操作
+#### 4.1.3 DataSink数据输出
+### 4.2 时间概念与watermark
+#### 4.2.1 时间概念类型
+#### 4.2.2 EventTime和watermark
+### 4.3 windows窗口计算
+#### 4.3.1 windows Assigner
+#### 4.3.2 Windows Function
+#### 4.3.3 Trigger窗口触发器
+#### 4.3.4 Evictors数据剔除器
+#### 4.3.5 延迟数据处理
+#### 4.3.6 连续窗口计算
+#### 4.3.7 Windows多流合并
+### 4.4 作业链和资源组
+#### 4.4.1 作业链
+#### 4.4.2 Slots资源组
+### 4.5 Asynchronous I/O异步操作
+### 4.6 本章小结
