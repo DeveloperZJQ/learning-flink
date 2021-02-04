@@ -15,7 +15,7 @@ import java.util.Arrays;
  * @since 2021-02-02
  */
 public class ForthPointOne {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         //读取文件源数据
@@ -29,7 +29,7 @@ public class ForthPointOne {
         DataStreamSource<Tuple2<Long, Long>> tuple2DataStreamSource = env.fromElements(new Tuple2<>(1L, 3L), new Tuple2<>(1L, 3L), new Tuple2<>(1L, 3L));
         DataStreamSource<String> stringDataStreamSource = env.fromCollection(Arrays.asList("hello", "world"));
 
-        //外部数据源
+        env.execute(ForthPointThree.class.getSimpleName());
     }
 
     /**
