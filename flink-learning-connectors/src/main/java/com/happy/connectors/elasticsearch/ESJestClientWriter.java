@@ -57,6 +57,7 @@ public class ESJestClientWriter {
             e.printStackTrace();
         }
 
+        assert jestResult1 != null;
         boolean succeeded = jestResult1.isSucceeded();
         if (succeeded){
             log.info("insert succeed.");

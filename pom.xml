@@ -26,7 +26,7 @@
         <module>flink-learning-base</module>
         <module>flink-learning-connectors</module>
         <module>flink-learning-common</module>
-        <module>flink-learning-monitoring</module>
+        <module>flink-learning-book</module>
     </modules>
 
     <dependencies>
