@@ -28,7 +28,12 @@ public class KafkaProducer {
         props.put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");//key反序列化
         props.put("value.deserializer","org.apache.kafka.common.serialization.StringDeserializer");//value反序列化
 
-        FlinkKafkaProducer011<String> metric = new FlinkKafkaProducer011<>("metric", new SimpleStringSchema(), props);
+        FlinkKafkaProducer011<String> metric = new FlinkKafkaProducer011<>(
+                "metric",
+                new SimpleStringSchema(),
+                props
+        );
+
         dataStream.addSink(metric);
 
         env.execute("KafkaProducer App addSink");
