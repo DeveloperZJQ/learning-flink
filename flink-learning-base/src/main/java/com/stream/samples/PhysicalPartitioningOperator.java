@@ -25,6 +25,5 @@ public class PhysicalPartitioningOperator {
         //自定义分区器
 
         env.execute(PhysicalPartitioningOperator.class.getSimpleName());
-
     }
 }

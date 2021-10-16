@@ -66,23 +66,17 @@ public class ESHighRestBulkProcessorWriter extends RichSinkFunction<String> {
 
         restHighLevelClient = new RestHighLevelClient(
                 RestClient.builder(httpHosts)
-                .setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
-                    @Override
-                    public RequestConfig.Builder customizeRequestConfig(RequestConfig.Builder builder) {
-                        builder.setConnectionRequestTimeout(10000);
-                        builder.setConnectTimeout(10000);
-                        builder.setSocketTimeout(10000);
-                        return builder;
-                    }
+                .setRequestConfigCallback(builder -> {
+                    builder.setConnectionRequestTimeout(10000);
+                    builder.setConnectTimeout(10000);
+                    builder.setSocketTimeout(10000);
+                    return builder;
                 })
-                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-                    @Override
-                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpAsyncClientBuilder) {
-                        httpAsyncClientBuilder.disableAuthCaching();
-                        httpAsyncClientBuilder.setMaxConnPerRoute(3);
-                        httpAsyncClientBuilder.setMaxConnTotal(100);
-                        return httpAsyncClientBuilder.setDefaultCredentialsProvider(basicCredentialsProvider);
-                    }
+                .setHttpClientConfigCallback(httpAsyncClientBuilder -> {
+                    httpAsyncClientBuilder.disableAuthCaching();
+                    httpAsyncClientBuilder.setMaxConnPerRoute(3);
+                    httpAsyncClientBuilder.setMaxConnTotal(100);
+                    return httpAsyncClientBuilder.setDefaultCredentialsProvider(basicCredentialsProvider);
                 }).build()
         );
     }

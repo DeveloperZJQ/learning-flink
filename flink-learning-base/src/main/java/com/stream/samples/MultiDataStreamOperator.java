@@ -1,6 +1,5 @@
 package com.stream.samples;
 
-import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.streaming.api.collector.selector.OutputSelector;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  * @author happy
- * @create 2020-07-09 17:07
+ * @since 2020-07-09 17:07
  * Union算子主要是将两个或者多个输入的数据集合集成一个数据集，需要保证两个数据集的格式一致，输出的数据集的格式和输入的数据集格式保持一致
  */
 public class MultiDataStreamOperator {
@@ -34,7 +33,7 @@ public class MultiDataStreamOperator {
         env.execute("MultiDataStreamOperator App start");
     }
 
-    public static void unionDemo(StreamExecutionEnvironment env){
+    public static void unionDemo(StreamExecutionEnvironment env) {
         DataStreamSource<String> dataStream1 = env.fromElements("1", "2", "3");
         DataStreamSource<String> dataStream2 = env.fromElements("4", "5", "6");
         DataStreamSource<String> dataStream3 = env.fromElements("7", "8", "9");
@@ -43,14 +42,14 @@ public class MultiDataStreamOperator {
         union.print();
     }
 
-    public static void connectMapDemo(StreamExecutionEnvironment env){
+    public static void connectMapDemo(StreamExecutionEnvironment env) {
 
-        DataStreamSource<Tuple2<String,Integer>> dataTuples         = env.fromElements(new Tuple2("hello", 1), new Tuple2("teacher", 2), new Tuple2("student", 3));
-        DataStreamSource<Integer> dataStream                        = env.fromElements(1, 2, 3);
+        DataStreamSource<Tuple2<String, Integer>> dataTuples = env.fromElements(new Tuple2("hello", 1), new Tuple2("teacher", 2), new Tuple2("student", 3));
+        DataStreamSource<Integer> dataStream = env.fromElements(1, 2, 3);
 
-        ConnectedStreams<Tuple2<String,Integer>, Integer> connect   = dataTuples.connect(dataStream);
+        ConnectedStreams<Tuple2<String, Integer>, Integer> connect = dataTuples.connect(dataStream);
 
-        SingleOutputStreamOperator<Tuple2<Integer, String>> coMapRes= connect.map(new CoMapFunction<Tuple2<String, Integer>, Integer, Tuple2<Integer, String>>() {
+        SingleOutputStreamOperator<Tuple2<Integer, String>> coMapRes = connect.map(new CoMapFunction<Tuple2<String, Integer>, Integer, Tuple2<Integer, String>>() {
             @Override
             public Tuple2<Integer, String> map1(Tuple2 tuple2) throws Exception {
                 String str = tuple2.f0.toString();
@@ -67,11 +66,11 @@ public class MultiDataStreamOperator {
         coMapRes.print();
     }
 
-    public static void connectFlatMapDemo(StreamExecutionEnvironment env){
-        DataStreamSource<Tuple2<String,Integer>> dataTuples         = env.fromElements(new Tuple2("hello", 1), new Tuple2("teacher", 2), new Tuple2("student", 3));
-        DataStreamSource<Integer> dataStream                        = env.fromElements(1, 2, 3);
+    public static void connectFlatMapDemo(StreamExecutionEnvironment env) {
+        DataStreamSource<Tuple2<String, Integer>> dataTuples = env.fromElements(new Tuple2("hello", 1), new Tuple2("teacher", 2), new Tuple2("student", 3));
+        DataStreamSource<Integer> dataStream = env.fromElements(1, 2, 3);
 
-        ConnectedStreams<Tuple2<String,Integer>, Integer> connect   = dataTuples.connect(dataStream);
+        ConnectedStreams<Tuple2<String, Integer>, Integer> connect = dataTuples.connect(dataStream);
 
         SingleOutputStreamOperator<Tuple3<String, Integer, Integer>> aDefault = connect.flatMap(new CoFlatMapFunction<Tuple2<String, Integer>, Integer, Tuple3<String, Integer, Integer>>() {
             @Override
@@ -86,9 +85,9 @@ public class MultiDataStreamOperator {
         });
     }
 
-    public static void splitDemo(StreamExecutionEnvironment env){
-        DataStreamSource<Long> dataStream   = env.generateSequence(0, 9);
-        SplitStream<Long> splitRes          = dataStream.split(new OutputSelector<Long>() {
+    public static void splitDemo(StreamExecutionEnvironment env) {
+        DataStreamSource<Long> dataStream = env.generateSequence(0, 9);
+        SplitStream<Long> splitRes = dataStream.split(new OutputSelector<Long>() {
             @Override
             public Iterable<String> select(Long aLong) {
                 ArrayList<String> output = new ArrayList<>();
@@ -101,12 +100,12 @@ public class MultiDataStreamOperator {
             }
         });
 
-        DataStream<Long> even   = splitRes.select("even");
-        DataStream<Long> odd    = splitRes.select("odd");
-        DataStream<Long> all    = splitRes.select("even", "odd");
+        DataStream<Long> even = splitRes.select("even");
+        DataStream<Long> odd = splitRes.select("odd");
+        DataStream<Long> all = splitRes.select("even", "odd");
 
-//        even.print();
-//        odd.print();
+        even.print();
+        odd.print();
         all.print();
     }
 }
