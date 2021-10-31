@@ -87,17 +87,14 @@ public class MultiDataStreamOperator {
 
     public static void splitDemo(StreamExecutionEnvironment env) {
         DataStreamSource<Long> dataStream = env.generateSequence(0, 9);
-        SplitStream<Long> splitRes = dataStream.split(new OutputSelector<Long>() {
-            @Override
-            public Iterable<String> select(Long aLong) {
-                ArrayList<String> output = new ArrayList<>();
-                if (aLong % 2 == 0) {
-                    output.add("even");
-                } else {
-                    output.add("odd");
-                }
-                return output;
+        SplitStream<Long> splitRes = dataStream.split((OutputSelector<Long>) aLong -> {
+            ArrayList<String> output = new ArrayList<>();
+            if (aLong % 2 == 0) {
+                output.add("even");
+            } else {
+                output.add("odd");
             }
+            return output;
         });
 
         DataStream<Long> even = splitRes.select("even");
