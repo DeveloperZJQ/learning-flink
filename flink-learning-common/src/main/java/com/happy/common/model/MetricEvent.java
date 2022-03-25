@@ -19,6 +19,11 @@ public class MetricEvent {
 	private String name;
 
 	/**
+	 * Metric name
+	 */
+	private String topic;
+
+	/**
 	 * Metric timestamp
 	 */
 	private Long timestamp;

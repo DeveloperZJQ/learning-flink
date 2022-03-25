@@ -3,14 +3,18 @@ package com.happy.common.utils;
 import com.happy.common.constant.PropertiesConstants;
 import com.happy.common.model.MetricEvent;
 import com.happy.common.schema.MetricSchema;
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.KafkaSourceBuilder;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 import org.apache.flink.streaming.connectors.kafka.internals.KafkaTopicPartition;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.OffsetAndTimestamp;
+import org.apache.kafka.clients.consumer.OffsetResetStrategy;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 
@@ -55,54 +59,45 @@ public class KafkaConfigUtil {
 
     public static DataStreamSource<MetricEvent> buildSource(StreamExecutionEnvironment env) throws IllegalAccessException {
         ParameterTool parameter = (ParameterTool) env.getConfig().getGlobalJobParameters();
-        String topic            = parameter.getRequired(PropertiesConstants.METRICS_TOPIC);
-        Long time               = parameter.getLong(PropertiesConstants.CONSUMER_FROM_TIME, 0L);
+        String topic = parameter.getRequired(PropertiesConstants.METRICS_TOPIC);
+        Long time = parameter.getLong(PropertiesConstants.CONSUMER_FROM_TIME, 0L);
         return buildSource(env, topic, time);
     }
 
-    public static DataStreamSource<String> buildSourceString(StreamExecutionEnvironment env) throws IllegalAccessException{
+    public static DataStreamSource<String> buildSourceString(StreamExecutionEnvironment env) throws IllegalAccessException {
         ParameterTool parameter = (ParameterTool) env.getConfig().getGlobalJobParameters();
-        String requiredTopic    = parameter.getRequired(METRICS_TOPIC);
-        Long time               = parameter.getLong(CONSUMER_FROM_TIME, 0L);
-        return buildSourceString(env,requiredTopic,time);
+        String requiredTopic = parameter.getRequired(METRICS_TOPIC);
+        Long time = parameter.getLong(CONSUMER_FROM_TIME, 0L);
+        return buildSourceString(env, requiredTopic, time);
     }
 
     public static DataStreamSource<String> buildSourceString(StreamExecutionEnvironment env, String requiredTopic, Long time) {
         ParameterTool parameterTool = (ParameterTool) env.getConfig().getGlobalJobParameters();
-        Properties props            = buildKafkaProps(parameterTool);
-        FlinkKafkaConsumer011<String> consumer = new FlinkKafkaConsumer011<String>(
-                requiredTopic,
-                new SimpleStringSchema(),
-                props
-        );
-        //重置offset到time时刻
-        if (time != 0L) {
-            Map<KafkaTopicPartition, Long> partitionOffset = buildOffsetByTime(props, parameterTool, time);
-            consumer.setStartFromSpecificOffsets(partitionOffset);
-        }
-        return env.addSource(consumer);
+        Properties props = buildKafkaProps(parameterTool);
+        KafkaSource<String> consumer = KafkaSource.<String>builder()
+                .setProperties(props)
+                .setTopics(requiredTopic)
+                .setStartingOffsets(OffsetsInitializer.earliest())
+                .setValueOnlyDeserializer(new SimpleStringSchema())
+                .build();
+        return env.fromSource(consumer, WatermarkStrategy.noWatermarks(), "KafkaSource");
     }
 
     /**
      * @param env
      * @param topic
      * @param time  订阅的时间
-     * @return
-     * @throws IllegalAccessException
      */
     public static DataStreamSource<MetricEvent> buildSource(StreamExecutionEnvironment env, String topic, Long time) throws IllegalAccessException {
         ParameterTool parameterTool = (ParameterTool) env.getConfig().getGlobalJobParameters();
         Properties props = buildKafkaProps(parameterTool);
-        FlinkKafkaConsumer011<MetricEvent> consumer = new FlinkKafkaConsumer011<>(
-                topic,
-                new MetricSchema(),
-                props);
-        //重置offset到time时刻
-        if (time != 0L) {
-            Map<KafkaTopicPartition, Long> partitionOffset = buildOffsetByTime(props, parameterTool, time);
-            consumer.setStartFromSpecificOffsets(partitionOffset);
-        }
-        return env.addSource(consumer);
+        KafkaSource<MetricEvent> consumer = KafkaSource.<MetricEvent>builder()
+                .setTopics(topic)
+                .setValueOnlyDeserializer(new MyDeSerializer())
+                .setProperties(props)
+                .setStartingOffsets(OffsetsInitializer.timestamp(time))
+                .build();
+        return env.fromSource(consumer, WatermarkStrategy.noWatermarks(), "Kafka Source");
     }
 
 
