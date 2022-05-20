@@ -1,4 +1,4 @@
-package com.basic;
+package com.train;
 
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;

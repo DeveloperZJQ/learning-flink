@@ -1,4 +1,4 @@
-package com.basic;
+package com.train;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -16,12 +16,9 @@ public class ClickPoint {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         DataStreamSource<String> clicks = env.socketTextStream("127.0.0.1", 9999);
-        SingleOutputStreamOperator<Tuple2<String, Long>> result = clicks.map(new MapFunction<String, Tuple2<String, Long>>() {
-            @Override
-            public Tuple2<String, Long> map(String s) throws Exception {
-                String userID = s.split(",")[0];
-                return Tuple2.of(userID, 1L);
-            }
+        SingleOutputStreamOperator<Tuple2<String, Long>> result = clicks.map((MapFunction<String, Tuple2<String, Long>>) s -> {
+            String userID = s.split(",")[0];
+            return Tuple2.of(userID, 1L);
         })
                 .keyBy(0)
                 .window(EventTimeSessionWindows.withGap(Time.minutes(30L)))
