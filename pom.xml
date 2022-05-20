@@ -29,6 +29,7 @@
         <module>flink-learning-common</module>
         <module>flink-learning-book</module>
         <module>flink-learning-project</module>
+        <module>flink-learning-tbds</module>
     </modules>
 
     <dependencies>

@@ -2,14 +2,14 @@ package com.stream.samples;
 
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.streaming.api.collector.selector.OutputSelector;
-import org.apache.flink.streaming.api.datastream.*;
+import org.apache.flink.streaming.api.datastream.ConnectedStreams;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.CoFlatMapFunction;
 import org.apache.flink.streaming.api.functions.co.CoMapFunction;
 import org.apache.flink.util.Collector;
-
-import java.util.ArrayList;
 
 /**
  * @author happy
@@ -87,22 +87,6 @@ public class MultiDataStreamOperator {
 
     public static void splitDemo(StreamExecutionEnvironment env) {
         DataStreamSource<Long> dataStream = env.generateSequence(0, 9);
-        SplitStream<Long> splitRes = dataStream.split((OutputSelector<Long>) aLong -> {
-            ArrayList<String> output = new ArrayList<>();
-            if (aLong % 2 == 0) {
-                output.add("even");
-            } else {
-                output.add("odd");
-            }
-            return output;
-        });
-
-        DataStream<Long> even = splitRes.select("even");
-        DataStream<Long> odd = splitRes.select("odd");
-        DataStream<Long> all = splitRes.select("even", "odd");
-
-        even.print();
-        odd.print();
-        all.print();
+        dataStream.print();
     }
 }
