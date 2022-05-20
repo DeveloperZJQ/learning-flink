@@ -1,11 +1,13 @@
 package com.happy.connectors.kafka;
 
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 import org.apache.flink.util.Collector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +38,14 @@ public class KafkaConsumer {
 
         props.put("auto.offset.reset","latest");//偏移量最新earliest
 
-        DataStreamSource<String> metricStreamSource = env.addSource(new FlinkKafkaConsumer011<>(
-                "metric",   //kafka topic
-                new SimpleStringSchema(),//String 序列化
-                props
-        )).setParallelism(1);
+        KafkaSource<String> build = KafkaSource.<String>builder()
+                .setBootstrapServers(args[0])
+                .setTopics("metric")
+                .setGroupId("metric001")
+                .setStartingOffsets(OffsetsInitializer.earliest())
+                .setValueOnlyDeserializer(new SimpleStringSchema())
+                .build();
+        DataStreamSource<String> metricStreamSource = env.fromSource(build, WatermarkStrategy.noWatermarks(),"Kafka Source").setParallelism(1);
 
         SingleOutputStreamOperator<String> myCounter = metricStreamSource.process(new ProcessFunction<String, String>() {
             @Override

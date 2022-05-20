@@ -3,14 +3,8 @@ package com.stream.streaming.splitflow;
 import com.happy.common.model.MetricEvent;
 import com.happy.common.utils.KafkaConfigUtil;
 import org.apache.flink.api.java.utils.ParameterTool;
-import org.apache.flink.streaming.api.collector.selector.OutputSelector;
-import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
-import org.apache.flink.streaming.api.datastream.SplitStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author happy
@@ -23,6 +17,7 @@ public class SplitFlow {
         env.getConfig().setGlobalJobParameters(params);
         DataStreamSource<MetricEvent> data      = KafkaConfigUtil.buildSource(env);  //从 Kafka 获取到所有的数据流
 
+        /* flink 1.14已经没此算子
         SplitStream<MetricEvent> splitData = data.split(new OutputSelector<MetricEvent>() {
             @Override
             public Iterable<String> select(MetricEvent metricEvent) {
@@ -51,6 +46,7 @@ public class SplitFlow {
         docker.print();
         application.print();
 
+         */
         env.execute("SplitFlow App start");
     }
 }
