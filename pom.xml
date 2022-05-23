@@ -16,8 +16,9 @@
         <hutool.version>5.1.5</hutool.version>
         <flink.redis.version>1.1.5</flink.redis.version>
         <!--        用不到就注掉，因为我两台笔记本的scala版本不一样-->
+        <!--        flink 1.15.0 之后2.11被废弃-->
         <!--        <scala.binary.version>2.11</scala.binary.version>-->
-        <scala.binary.version>2.12</scala.binary.version>
+        <!--        <scala.binary.version>2.12</scala.binary.version>-->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <log4j.version>2.17.1</log4j.version>
@@ -94,11 +95,11 @@
 
 
         <!--        flink 1.14.4-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.flink</groupId>-->
-<!--            <artifactId>flink-walkthrough-common</artifactId>-->
-<!--            <version>${flink.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.flink</groupId>-->
+        <!--            <artifactId>flink-walkthrough-common</artifactId>-->
+        <!--            <version>${flink.version}</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-test-utils</artifactId>
