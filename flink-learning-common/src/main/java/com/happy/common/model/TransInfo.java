@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author happy
- * @create 2020-07-08 06:21
+ * @since 2020-07-08 06:21
  */
 @Data
 public  class TransInfo implements Serializable {

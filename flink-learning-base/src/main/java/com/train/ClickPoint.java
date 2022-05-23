@@ -1,6 +1,7 @@
 package com.train;
 
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -19,7 +20,7 @@ public class ClickPoint {
         SingleOutputStreamOperator<Tuple2<String, Long>> result = clicks.map((MapFunction<String, Tuple2<String, Long>>) s -> {
             String userID = s.split(",")[0];
             return Tuple2.of(userID, 1L);
-        })
+        }).returns(Types.TUPLE(Types.STRING, Types.INT))
                 .keyBy(0)
                 .window(EventTimeSessionWindows.withGap(Time.minutes(30L)))
                 .reduce((a, b) -> Tuple2.of(a.f0, a.f1 + b.f1));
