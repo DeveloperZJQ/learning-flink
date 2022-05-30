@@ -99,7 +99,7 @@
             <version>${flink.version}</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!--        三方依赖-->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -158,7 +158,6 @@
     <profiles>
         <profile>
             <id>add-dependencies-for-IDEA</id>
-
             <activation>
                 <property>
                     <name>idea.version</name>
