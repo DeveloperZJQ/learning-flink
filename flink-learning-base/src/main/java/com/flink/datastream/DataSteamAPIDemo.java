@@ -33,5 +33,6 @@ public class DataSteamAPIDemo {
         final JobClient jobClient = env.executeAsync();
         JobExecutionResult jobExecutionResult = jobClient.getJobExecutionResult().get();
         //
+        mapParsed.executeAndCollect();
     }
 }
