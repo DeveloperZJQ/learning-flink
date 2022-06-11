@@ -30,6 +30,8 @@ public class TableAndSQLFirstProgrammer {
 // Create a Table object from a SQL query
         tableEnv.sqlQuery("SELECT * FROM SourceTable").execute().print();
 
+        tableEnv.createTemporaryView("TEMP_TABLE_A", table2);
+        tableEnv.sqlQuery("SELECT * FROM TEMP_TABLE_A").execute().print();
 // Emit a Table API result Table to a TableSink, same for SQL result
         table2.insertInto("SinkTable").execute();
     }
