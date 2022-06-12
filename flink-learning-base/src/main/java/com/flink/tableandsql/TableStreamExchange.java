@@ -1,5 +1,7 @@
 package com.flink.tableandsql;
 
+import org.apache.flink.api.common.RuntimeExecutionMode;
+import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
@@ -15,8 +17,8 @@ public class TableStreamExchange {
 
 // create environments of both APIs
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 
+        StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 // create a DataStream
         DataStream<String> dataStream = env.fromElements("Alice", "Bob", "John");
 

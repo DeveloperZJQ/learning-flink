@@ -12,7 +12,6 @@ public class TableAndSQLFirstProgrammer {
         final EnvironmentSettings settings =
                 EnvironmentSettings.newInstance().inStreamingMode().build();
         TableEnvironment tableEnv = TableEnvironment.create(settings);
-
 // Create a source table
         tableEnv.createTemporaryTable("SourceTable", TableDescriptor.forConnector("datagen")
                 .schema(Schema.newBuilder()
