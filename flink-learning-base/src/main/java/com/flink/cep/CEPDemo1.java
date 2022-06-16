@@ -20,6 +20,7 @@ import java.util.Objects;
 /**
  * @author happy
  * @since 2022/6/15
+ * 致敬作者：https://www.jianshu.com/p/780df5c4e34c
  */
 public class CEPDemo1 {
 
