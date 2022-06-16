@@ -1,6 +1,5 @@
 package com.flink.cep;
 
-import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.cep.CEP;
 import org.apache.flink.cep.PatternStream;
 import org.apache.flink.cep.functions.PatternProcessFunction;
@@ -36,8 +35,9 @@ public class CEPDemo1 {
             }
             return new Event(Integer.parseInt(strings[0]), strings[1], Integer.parseInt(strings[2]));
         }).returns(Event.class)
-                .keyBy((KeySelector<Event, String>) Event::getName);
+                .keyBy(Event::getName);
 
+        keyedStreamInput.print("input-->");
         Pattern<Event, Event> pattern1 = Pattern.<Event>begin("firstly")
                 .where(new SimpleCondition<>() {
                     @Override
@@ -61,7 +61,7 @@ public class CEPDemo1 {
                     }
                 })
                 .timesOrMore(1)
-                .within(Time.minutes(3));
+                .within(Time.seconds(30));
 
         PatternStream<Event> patternStream1 = CEP.pattern(keyedStreamInput, pattern1);
         PatternStream<Event> patternStream2 = CEP.pattern(keyedStreamInput, pattern2);
@@ -69,7 +69,9 @@ public class CEPDemo1 {
         DataStream<String> streamA = processPatternStream(patternStream1, "收藏商品");
         DataStream<String> streamB = processPatternStream(patternStream2, "连续浏览商品");
 
-        streamA.union(streamB).print();
+        streamA.print("A--");
+        streamA.print("B--");
+        streamA.union(streamB).print("2222-->");
 
         env.execute();
     }
@@ -77,10 +79,11 @@ public class CEPDemo1 {
     public static DataStream<String> processPatternStream(PatternStream<Event> patternStream, String tag) {
         return patternStream.process(new PatternProcessFunction<>() {
             @Override
-            public void processMatch(Map<String, List<Event>> match, Context ctx, Collector<String> out) throws Exception {
+            public void processMatch(Map<String, List<Event>> match, Context ctx, Collector<String> out) {
                 String name = null;
                 for (Map.Entry<String, List<Event>> entry : match.entrySet()) {
                     name = entry.getValue().get(0).getName();
+                    System.out.println("name:"+name);
                 }
                 out.collect(name + " 成为潜在客户 ," + tag);
             }
@@ -120,6 +123,30 @@ public class CEPDemo1 {
 
         public void setType(Integer type) {
             this.type = type;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Event event = (Event) o;
+            return Objects.equals(id, event.id) &&
+                    Objects.equals(name, event.name) &&
+                    Objects.equals(type, event.type);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id, name, type);
+        }
+
+        @Override
+        public String toString() {
+            return "Event{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", type=" + type +
+                    '}';
         }
     }
 }
