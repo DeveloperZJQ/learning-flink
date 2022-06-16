@@ -23,7 +23,6 @@ import java.util.Objects;
 public class CEPDemo1 {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-
         //nc -lk 9999
         String ip = "127.0.0.1";
         if (args.length == 1) {
@@ -32,7 +31,7 @@ public class CEPDemo1 {
         DataStream<String> datSource = env.socketTextStream(ip, 9999);
         KeyedStream<Event, String> keyedStreamInput = datSource.filter(Objects::nonNull).map(s -> {
             String[] strings = s.split(",");
-            if (strings.length != 2) {
+            if (strings.length != 3) {
                 return null;
             }
             return new Event(Integer.parseInt(strings[0]), strings[1], Integer.parseInt(strings[2]));
