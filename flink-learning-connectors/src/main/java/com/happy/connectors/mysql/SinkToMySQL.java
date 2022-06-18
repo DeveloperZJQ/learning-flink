@@ -2,23 +2,17 @@ package com.happy.connectors.mysql;
 
 import com.happy.common.model.TransInfo;
 import com.happy.common.utils.ExecutionEnvUtil;
-import com.happy.common.utils.GsonUtil;
 import com.happy.common.utils.KafkaConfigUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Properties;
-
-import static com.happy.common.constant.PropertiesConstants.METRICS_TOPIC;
 
 /**
  * @author happy
@@ -29,7 +23,7 @@ public class SinkToMySQL {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         ParameterTool parameterTool = ExecutionEnvUtil.PARAMETER_TOOL;
         Properties props = KafkaConfigUtil.buildKafkaProps(parameterTool);
-
+/*
         SingleOutputStreamOperator<TransInfo> transInfo = env.addSource(new FlinkKafkaConsumer011<>(
                 parameterTool.get(METRICS_TOPIC),   //这个 kafka topic 需要和上面的工具类的 topic 一致
                 new SimpleStringSchema(),
@@ -37,7 +31,7 @@ public class SinkToMySQL {
                 .map(string -> GsonUtil.fromJson(string, TransInfo.class)); //博客里面用的是 fastjson，这里用的是gson解析，解析字符串成 transinfo 对象
 
         transInfo.addSink(new SinkToMySQL2()); //数据 sink 到 mysql
-
+*/
         env.execute("SinkToMySQL App start");
     }
 }
