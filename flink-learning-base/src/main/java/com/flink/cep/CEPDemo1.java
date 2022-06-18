@@ -21,9 +21,12 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * 5s内点击浏览了商品3次
+ * 3秒内先点击浏览商品，然后将商品加入收藏
+ *
  * @author happy
  * @since 2022/6/15
- * 致敬作者：https://www.jianshu.com/p/780df5c4e34c
+ * 致敬原作者：https://www.jianshu.com/p/780df5c4e34c
  */
 public class CEPDemo1 {
 
@@ -97,7 +100,7 @@ public class CEPDemo1 {
                 .times(3)
                 .within(Time.seconds(5));
 
-        // CEP用pattern将输入的时间事件流转化为复杂事件流
+        // CEP用pattern将输入的事件流转化为复杂事件流
         PatternStream<Event> patternStreamA = CEP.pattern(partitionedInput, patternA);
         PatternStream<Event> patternStreamB = CEP.pattern(partitionedInput, patternB);
 
@@ -106,7 +109,7 @@ public class CEPDemo1 {
 
         // 最后两个复杂事件流进行合并
         streamA.union(streamB).print("result-->");
-        env.execute("Flink Streaming Java API Skeleton");
+        env.execute(CEPDemo1.class.getSimpleName());
     }
 
     public static DataStream<String> processPatternStream(PatternStream<Event> patternStream, String tag) {
