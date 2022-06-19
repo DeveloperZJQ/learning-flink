@@ -1,5 +1,6 @@
 package com.happy.connectors.kafka;
 
+import org.apache.flink.api.common.RuntimeExecutionMode;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.connector.kafka.source.KafkaSource;
@@ -12,53 +13,51 @@ import org.apache.flink.util.Collector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 /**
  * @author happy
- * @create 2020-07-08 22:21
- *
+ * @since 2020-07-08 22:21
  */
 public class KafkaConsumer {
     private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
+
     public static void main(String[] args) throws Exception {
-        if (args.length!=1){
+        if (args.length != 1) {
             System.err.println("请传入有效信息，如192.168.2.112:9092");
             return;
         }
-
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        //Properties参数定义
-        Properties props = new Properties();
-        props.put("bootstrap.servers",args[0]);
-        props.put("group.id","metric-group");
-        props.put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");//key反序列化
-        props.put("value.deserializer","org.apache.kafka.common.serialization.StringDeserializer");//value反序列化
+        env.setRuntimeMode(RuntimeExecutionMode.STREAMING);
+        env.setParallelism(1);
 
-        props.put("auto.offset.reset","latest");//偏移量最新earliest
+        Properties props = new Properties();
+        props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 
         KafkaSource<String> build = KafkaSource.<String>builder()
                 .setBootstrapServers(args[0])
-                .setTopics("metric")
+                .setProperties(props)
+                .setTopics(Arrays.asList("test002".split(" ")))
                 .setGroupId("metric001")
                 .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new SimpleStringSchema())
                 .build();
-        DataStreamSource<String> metricStreamSource = env.fromSource(build, WatermarkStrategy.noWatermarks(),"Kafka Source").setParallelism(1);
+        DataStreamSource<String> metricStreamSource = env.fromSource(build, WatermarkStrategy.noWatermarks(), "Kafka Source");
 
-        SingleOutputStreamOperator<String> myCounter = metricStreamSource.process(new ProcessFunction<String, String>() {
+        metricStreamSource.print();
+        SingleOutputStreamOperator<String> myCounter = metricStreamSource.process(new ProcessFunction<>() {
             @Override
-            public void processElement(String s, Context context, Collector<String> collector) throws Exception {
+            public void processElement(String s, Context context, Collector<String> collector) {
                 long l = System.currentTimeMillis();
-                logger.info("current timestamp is :"+l);
+                logger.info("current timestamp is :" + l);
                 getRuntimeContext().getMetricGroup().counter(3).getCount();
             }
         });
 
         myCounter.print();
-
-        metricStreamSource.print(); //把从kafka读取到的数据打印并输出
 
         env.execute("Flink DataSource");
     }

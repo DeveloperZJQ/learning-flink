@@ -9,6 +9,7 @@ import java.util.Properties;
  * @author happy
  * @create wowo07/09
  */
+@Deprecated(since = "before flink1.15")
 public class KafkaProducer {
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
