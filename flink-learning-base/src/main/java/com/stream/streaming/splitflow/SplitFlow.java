@@ -47,6 +47,7 @@ public class SplitFlow {
         application.print();
 
          */
+        data.print();
         env.execute("SplitFlow App start");
     }
 }

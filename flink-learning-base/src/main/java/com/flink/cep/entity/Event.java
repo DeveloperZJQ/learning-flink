@@ -1,6 +1,7 @@
 package com.flink.cep.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author lcx
@@ -13,12 +14,12 @@ public class Event {
     /**
      * 事件类型
      */
-    private int type;
+    private Integer type;
 
     /**
      * 时间戳
      */
-    private long timestamp;
+    private Long timestamp;
 
 
     private Date date;
@@ -28,13 +29,13 @@ public class Event {
     }
 
 
-    public Event(String name, int type, long timestamp) {
+    public Event(String name, Integer type, Long timestamp) {
         this.name = name;
         this.type = type;
         this.timestamp = timestamp;
     }
 
-    public Event(String name, int type, long timestamp, Date date) {
+    public Event(String name, Integer type, Long timestamp, Date date) {
         this.name = name;
         this.type = type;
         this.timestamp = timestamp;
@@ -49,20 +50,20 @@ public class Event {
         this.name = name;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
 
-    public long getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -73,6 +74,19 @@ public class Event {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(name, event.name) && Objects.equals(type, event.type) && Objects.equals(timestamp, event.timestamp) && Objects.equals(date, event.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type, timestamp, date);
     }
 
     @Override

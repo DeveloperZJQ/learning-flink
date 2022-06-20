@@ -1,13 +1,7 @@
 package com.happy.connectors.elasticsearch;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.api.common.serialization.SimpleStringSchema;
-import org.apache.flink.streaming.api.datastream.DataStreamSource;
-import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.ProcessFunction;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
-import org.apache.flink.util.Collector;
 
 import java.util.Properties;
 
@@ -29,7 +23,7 @@ public class ESMain {
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");//value反序列化
 
         props.put("auto.offset.reset", "latest");//偏移量最新earliest
-
+/*
         DataStreamSource<String> metricStreamSource = env.addSource(new FlinkKafkaConsumer011<>(
                 "test",   //kafka topic
                 new SimpleStringSchema(),//String 序列化
@@ -38,6 +32,8 @@ public class ESMain {
 
         //批量写入elasticsearch
         metricStreamSource.addSink(new ESHighRestBulkProcessorWriter()).name("SinkES");
+
+ */
         env.execute("Flink DataSource");
     }
 }
