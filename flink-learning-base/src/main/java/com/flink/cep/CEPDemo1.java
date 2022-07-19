@@ -31,13 +31,8 @@ import java.util.Objects;
 public class CEPDemo1 {
 
     /**
-<<<<<<< HEAD
-     * 运行nc -L -p 9999 ，打开端口  win
-     * nc -lk 9999     mac linux
-=======
      * windows开启9999端口 nc -L -p 9999
      * linux开启9999端口  nc -lk 9999
->>>>>>> e92b4b08e70048883a781a4c44e1c0821e8d51c4
      */
     public static void main(String[] args) throws Exception {
         // set up the streaming execution environment

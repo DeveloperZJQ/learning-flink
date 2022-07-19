@@ -29,6 +29,7 @@
         <module>flink-learning-connectors</module>
         <module>flink-learning-common</module>
         <module>flink-learning-book</module>
+        <module>flink-annotations</module>
     </modules>
 
     <dependencies>
