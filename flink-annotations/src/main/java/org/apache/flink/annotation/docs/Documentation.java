@@ -26,30 +26,26 @@ public final class Documentation {
     }
 
     /**
-     * Annotation used on config option fields to include them in specific sections. Sections are
-     * groups of options that are aggregated across option classes, with each group being placed
-     * into a dedicated file.
-     * <p>The {@link Section#position()} argument controls the position in the generated table, with
-     * lower values being placed at the top. Fields with the same position are sorted alphabetically
-     * by key.
+     * 用于配置选项字段的注释，以将它们包含在特定部分中。部分跨选项类聚合的选项组，放置每个组放到一个专用文件中。
+     * 参数{@link Section#position()}控制生成表中的位置，使用较低的值被放置在顶部。相同位置的字段按字母顺序排序的关键。
      */
     @Target(ElementType.FIELD)
     @Retention(RetentionPolicy.RUNTIME)
     @Internal
     public @interface Section {
         /**
-         * The sections in the config docs where this option should be included.
+         * 配置文档中应该包含此选项的部分。
          */
         String[] value() default {};
 
         /**
-         * The relative position of the option in its section.
+         * 该选项在其部分中的相对位置。
          */
         int position() default Integer.MAX_VALUE;
     }
 
     /**
-     * Constants for section names.
+     * 选项静态名
      */
     public static final class Sections {
 
@@ -103,10 +99,9 @@ public final class Documentation {
     }
 
     /**
-     * Annotation used on table config options for adding meta data labels.
-     *
-     * <p>The {@link TableOption#execMode()} argument indicates the execution mode the config works
-     * for (batch, streaming or both).
+     * 表配置选项中用于添加元数据标签的注释。
+     * <p>
+     * {@link TableOption#execMode()}参数表示配置工作的执行模式(批处理、流处理或两者兼有)。
      */
     @Target(ElementType.FIELD)
     @Retention(RetentionPolicy.RUNTIME)
@@ -116,7 +111,7 @@ public final class Documentation {
     }
 
     /**
-     * The execution mode the config works for.
+     * 执行模式根据配置的工作
      */
     public enum ExecMode {
         BATCH("Batch"),
@@ -136,9 +131,8 @@ public final class Documentation {
     }
 
     /**
-     * Annotation used on config option fields or options class to mark them as a suffix-option;
-     * i.e., a config option where the key is only a suffix, with the prefix being dynamically
-     * provided at runtime.
+     * 用于配置选项字段或选项类的注释，将它们标记为后缀选项;
+     * 例如，一个配置选项，其中键仅为后缀，前缀为动态在运行时提供。
      */
     @Target({ElementType.FIELD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
@@ -148,15 +142,14 @@ public final class Documentation {
     }
 
     /**
-     * Annotation used on config option fields or REST API message headers to exclude it from
-     * documentation.
+     * 配置选项字段或REST API消息头上用于排除它的注释文档
      */
     @Target({ElementType.FIELD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Internal
     public @interface ExcludeFromDocumentation {
         /**
-         * The optional reason why it is excluded from documentation.
+         * 从文档中排除它的可选原因。
          */
         String value() default "";
     }
