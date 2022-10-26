@@ -1,0 +1,1 @@
+# 代码案例可以参考https://github.com/apache/flink/tree/master/flink-connectors/flink-connector-files/src/test/java/org/apache/flink/connector/file

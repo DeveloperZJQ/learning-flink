@@ -1,4 +1,4 @@
-package com.happy.connectors.file;
+package com.happy.connectors.file.source;
 
 import lombok.Data;
 

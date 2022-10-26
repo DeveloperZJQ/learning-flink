@@ -1,4 +1,4 @@
-package com.happy.connectors.file;
+package com.happy.connectors.file.source;
 
 import org.apache.flink.api.common.typeinfo.PrimitiveArrayTypeInfo;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
