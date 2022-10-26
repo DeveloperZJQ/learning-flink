@@ -7,7 +7,7 @@ import java.util.Properties;
 
 /**
  * @author happy
- * @create wowo07/09
+ * @since  2022/07/09
  */
 @Deprecated(since = "before flink1.15")
 public class KafkaProducer {
