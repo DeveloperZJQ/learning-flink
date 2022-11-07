@@ -29,7 +29,7 @@ public class DataSteamAPIDemo {
         mapParsed.writeAsText("");
 
         //触发程序执行
-//        env.execute(DataSteamAPIDemo.class.getSimpleName());
+        env.execute(DataSteamAPIDemo.class.getSimpleName());
         final JobClient jobClient = env.executeAsync();
         JobExecutionResult jobExecutionResult = jobClient.getJobExecutionResult().get();
         //
