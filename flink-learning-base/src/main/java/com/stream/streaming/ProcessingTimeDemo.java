@@ -37,12 +37,8 @@ public class ProcessingTimeDemo {
         DataStreamSource<String> stringDataStreamSource = env.socketTextStream(ip, port);
 
         //流转换  string->TransInfo
-        SingleOutputStreamOperator<TransInfo> map = stringDataStreamSource.map(new MapFunction<String, TransInfo>() {
-            @Override
-            public TransInfo map(String s) throws Exception {
-                TransInfo transInfo = JSON.parseObject(s, TransInfo.class);
-                return transInfo;
-            }
+        SingleOutputStreamOperator<TransInfo> map = stringDataStreamSource.map((MapFunction<String, TransInfo>) s -> {
+            return JSON.parseObject(s, TransInfo.class);
         });
 
         // 以卡号分组
@@ -54,11 +50,11 @@ public class ProcessingTimeDemo {
         });
 
         SingleOutputStreamOperator<TransInfo> reduceRes = transInfoStringKeyedStream.timeWindow(Time.seconds(30))
-                .reduce(new ReduceFunction<TransInfo>() {
-                    TransInfo transInfo2 = new TransInfo();
+                .reduce(new ReduceFunction<>() {
+                    final TransInfo transInfo2 = new TransInfo();
 
                     @Override
-                    public TransInfo reduce(TransInfo transInfo, TransInfo t1) throws Exception {
+                    public TransInfo reduce(TransInfo transInfo, TransInfo t1) {
                         transInfo2.setUserId(transInfo.getUserId());
                         transInfo2.setCardId(transInfo.getCardId());
                         transInfo2.setTimeStamp(transInfo2.getTimeStamp() + transInfo.getTimeStamp());

@@ -1,5 +1,6 @@
 package com.flink.datastream;
 
+import org.apache.flink.api.common.RuntimeExecutionMode;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -19,6 +20,7 @@ public class WindowWordCount {
             ip = args[0];
         }
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        env.setRuntimeMode(RuntimeExecutionMode.STREAMING);
         SingleOutputStreamOperator<Tuple2<String, Integer>> dataStream = env.socketTextStream(ip, 9999)
                 .flatMap(new Splitter())
                 .keyBy(one -> one.f0)
