@@ -9,8 +9,8 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
  * @author happy
- * @link https://github.com/zhisheng17/flink-learning/blob/master/flink-learning-examples/src/main/java/com/zhisheng/examples/streaming/sideoutput/FilterEvent.java
- * @create 2020-07-19 20:47
+ * @link <a href="https://github.com/zhisheng17/flink-learning/blob/master/flink-learning-examples/src/main/java/com/zhisheng/examples/streaming/sideoutput/FilterEvent.java">...</a>
+ * @since  2020-07-19 20:47
  */
 public class FilterFlow {
     public static void main(String[] args) throws Exception {

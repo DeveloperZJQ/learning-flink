@@ -23,8 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author happy
- * @create 2020-07-12 07:51
- * @link https://github.com/zhisheng17/flink-learning/blob/master/flink-learning-data-sources/src/main/java/com/zhisheng/data/sources/ScheduleMain.java
+ * @since 2020-07-12 07:51
+ * @link <a href="https://github.com/zhisheng17/flink-learning/blob/master/flink-learning-data-sources/src/main/java/com/zhisheng/data/sources/ScheduleMain.java">...</a>
  */
 
 @Slf4j
@@ -41,16 +41,13 @@ public class ScheduleMain {
         StreamExecutionEnvironment env      = ExecutionEnvUtil.prepare(parameterTool);
 
         DataStreamSource<MetricEvent> source = KafkaConfigUtil.buildSource(env);
-        source.map(new MapFunction<MetricEvent, MetricEvent>() {
-            @Override
-            public MetricEvent map(MetricEvent value) throws Exception {
-                if (rules.size() <= 2) {
-                    System.out.println("===========2");
-                } else {
-                    System.out.println("===========3");
-                }
-                return value;
+        source.map((MapFunction<MetricEvent, MetricEvent>) value -> {
+            if (rules.size() <= 2) {
+                System.out.println("===========2");
+            } else {
+                System.out.println("===========3");
             }
+            return value;
         }).print();
 
         env.execute("schedule");

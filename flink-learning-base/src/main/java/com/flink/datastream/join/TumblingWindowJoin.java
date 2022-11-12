@@ -15,12 +15,12 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 public class TumblingWindowJoin {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        String ip = "127.0.0.1";
+        String ip = "192.168.112.147";
         if (args.length == 1) {
             ip = args[0];
         }
-        DataStreamSource<String> orangeStream = env.socketTextStream(ip, 9999);
-        DataStreamSource<String> greenStream = env.socketTextStream(ip, 9998);
+        DataStreamSource<String> orangeStream = env.socketTextStream(ip, 7777);
+        DataStreamSource<String> greenStream = env.socketTextStream(ip, 7778);
 
         DataStream<String> joinStream = orangeStream.join(greenStream)
                 .where(one -> one)
