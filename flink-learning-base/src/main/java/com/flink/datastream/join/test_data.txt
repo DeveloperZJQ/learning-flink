@@ -1,0 +1,5 @@
+# OrderLog
+{"goodId":"g123","goodName":"cola"}
+# ClickLog
+{"sessionId":"session123456","goodId":"g123"}
+
