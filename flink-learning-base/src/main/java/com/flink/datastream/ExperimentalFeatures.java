@@ -24,9 +24,14 @@ public class ExperimentalFeatures {
         if (args.length == 1) {
             ip = args[0];
         }
-        DataStreamSource<String> source = env.socketTextStream(ip, 9999);
+        DataStreamSource<String> source = env.socketTextStream(ip, 7777);
 
         SingleOutputStreamOperator<Integer> map = source.map((MapFunction<String, Integer>) Integer::parseInt);
+
+        DataStreamUtils.reinterpretAsKeyedStream(map, (in) -> in, TypeInformation.of(Integer.class))
+                .reduce(Integer::sum)
+                .addSink(new DiscardingSink<>());
+
 
         DataStreamUtils.reinterpretAsKeyedStream(map, (in) -> in, TypeInformation.of(Integer.class))
                 .window(TumblingProcessingTimeWindows.of(Time.seconds(5)))
